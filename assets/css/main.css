@@ -1,0 +1,17 @@
+.container {
+    max-width: 960px;
+    color: #ee670d;
+    font-family: ‘Montserrat’, sans-serif;
+    
+}
+.list-group-item-secondary {
+    color: #fff;
+    background-color: #20315b;
+}
+.logo {
+    width: 250px;
+}
+
+.card {
+   width: 18rem;
+}
