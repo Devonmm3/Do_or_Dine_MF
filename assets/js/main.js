@@ -39,7 +39,8 @@ var categories = [
 function buildCatgegoryCards(){
 
     //empty the div before the search
-    $("#category-div").empty();
+    $("#category-div").show();
+    $("#results").hide();
 
     for(i=0; i < categories.length; i++) {
         
@@ -52,7 +53,7 @@ function buildCatgegoryCards(){
         //create a new category card div
         var newCategory = $("<div>");
         newCategory.attr("id", "");
-        newCategory.addClass("card image-card");
+        newCategory.addClass("card image-card categories");
         newCategory.attr("data-food-name", categoryName);
 
         var newCategoryImage = $("<img>");
@@ -79,21 +80,93 @@ buildCatgegoryCards();
 
 
 $(document).on("click", ".image-card", function () {
+
+    //hide category buttons and show the results div
+    $("#category-div").hide();
+    $("#results-div").show();
+
     //attribute from the card for the food name
     var q = $(this).attr("data-food-name");
     console.log(q);
-    //query URL
-    var queryURL = "https://www.food2fork.com/api/search?key=fb4f39eb5ea6ffbeb0f3f3811432fc39&q=" + q + "&sort=r&page=1";
-    console.log(queryURL)
-    //ajax Query
+
+    //query URL for recipes
+    var queryURL1 = "https://www.food2fork.com/api/search?key=fb4f39eb5ea6ffbeb0f3f3811432fc39&q=" + q + "&sort=r&page=1";
+    console.log(queryURL1)
+    
+    //ajax query for recipes
     $.ajax({
-        url: queryURL,
+        url: queryURL1,
         method: "GET"
     })
         .then(function (response) {
-            // debugger
-            var results = JSON.parse(response);
-            
-            
+            createCardRecipes(response);
         });
+
+    //query URL for restaurants
+    var queryURL2 = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?category=" + q + "&location=20002"
+    var key = "5FlEmy8iWdFAZEZf38vDDqBMWKiQ3ThCjti3C9vVhnsDjDQdKdJxps2Pll7_0Z3qT-IM-9CnKRVl3Vhe9jHUPUh8JutiEzogjAF5Wx5106kd91kx65cHShvJEikVXHYx"
+    //ajax query for restaurants
+    $.ajax({
+        url: queryURL2,
+        method: "GET",
+        headers: {
+            "Authorization": "Bearer " + key,
+        }
+        })
+        .then(function (response) {
+            createCardRestaurant(response);
+    });
+
+    function createCardRecipes(dataRecipe) {
+        var response = JSON.parse(dataRecipe);
+        for (var i = 0; i < 5; i++) {
+            //creating and storing a div for the recipe bootstrap card
+            var recipeCard = $("<div>");
+
+            //setting the class per result for card
+            recipeCard.attr("class", "card recipe");
+
+            //saving responses to variables
+            var image = $("<img class='card-img-top'>");
+            image.attr("src", response.recipes[i].image_url);
+            var title = $("<h5 class='card-title'>").text("Title: " + response.recipes[i].title);
+            var socialRank = $("<h6 class='card-subtitle'>").text("Rating: " + response.recipes[i].social_rank);
+            var recipeSource = $("<p class='card-text'>").text("Source:" + response.recipes[i].source_url);
+
+            recipeCard.prepend(image);
+            recipeCard.append(title);
+            recipeCard.append(socialRank);
+            recipeCard.append(recipeSource);
+
+            $("#results-div").prepend(recipeCard);
+        }
+    };
+
+    function createCardRestaurant(dataRestaurant) {
+        var response = dataRestaurant;
+        for (var i = 0; i < 5; i++) {
+            //creating and storing a div for the recipe bootstrap card
+            var restaurantCard = $("<div>");
+
+            //setting the class per result for card
+            restaurantCard.attr("class", "card restaurant");
+
+            //saving responses to variables
+            var image = $("<img class='card-img-top'>");
+            console.log(response.businesses[i]);
+            image.attr("src", response.businesses[i].image_url);
+            var title = $("<h5 class='card-title'>").text("Title: " + response.businesses[i].name);
+            var rating = $("<h6 class='card-subtitle'>").text("Rating: " + response.businesses[i].rating);
+            var location = $("<p class='card-text'>").text("Location:" + response.businesses[i].location.address1);
+            var price= $("<p class='card-text'>").text(response.businesses[i].price);
+
+            restaurantCard.prepend(image);
+            restaurantCard.append(title);
+            restaurantCard.append(rating);
+            restaurantCard.append(location);
+            restaurantCard.append(price);
+
+            $("#results-div").prepend(restaurantCard);
+        }
+    };
 });
