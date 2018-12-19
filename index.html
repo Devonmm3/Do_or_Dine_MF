@@ -6,24 +6,63 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Do or Dine!</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/main.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" media="screen" href="assets/css/main.css" />
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
 </head>
 
 <body>
-    <div class="container">
+    <div id="enter-form" class="container">
+        <img src="assets/images/Do-or-Dine-logo.png" alt="DO or DINE" class="logo-splash img-fluid">
+        <p class="slogan">Fix it! Get it! You decide!</p>
+        <form id="user-info">
+            <div class="row">
+                <div class="input-group mb-4 col-sm-12">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text green" id="location-input">Location</span>
+                    </div>
+                    <input type="text" class="form-control" id="location">
+                </div>
+                
+                <div class="input-group mb-4 col-sm-12">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text green" id="dist-input">Distance</label>
+                    </div>
+                    <select class="custom-select" id="distance">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                    </select>
+                </div>
+                <div id="submit">
+                    <button type="submit" class="btn btn-submit ml-auto" id="submit-location">Submit</button>
+                </div>
+            </div>
+            
+            
+        </form>
+    </div>
+
+    <div class="container" id="main-container">
         <header>
-            <h1><img src="assets/images/Do-or-Dine-logo.png" alt="DO or DINE" class="logo">Get it! Fix it! You decide!</h1>
+            <img src="assets/images/Do-or-Dine-logo.png" alt="DO or DINE" class="logo">
+            <h1>
+                Get it! Fix it! You decide!
+            </h1>
         </header>
 
         <div id="category-div">
         </div>
-        <div id="results-div">
+        <div class="row" id="results-div">
         </div>
     </div>
-    
+
+    <footer>
+
+    </footer>
+
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
