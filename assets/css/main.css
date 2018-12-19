@@ -1,7 +1,9 @@
 .container {
     max-width: 960px;
+    margin: auto;
     color: #ee670d;
     font-family: ‘Montserrat’, sans-serif;
+
     
 }
 .list-group-item-secondary {
@@ -12,6 +14,98 @@
     width: 250px;
 }
 
-.card {
-   width: 18rem;
+.categories {
+    float: left;
+    width: 18em;
+    height: 14rem;
+    background-color: #91cb3e;
+    margin: 10px;
+    border: none;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.categories img{
+    height: 100%;
+    overflow: hidden;
+}
+
+.categories h5 {
+    font-size: 1.75em;
+    font-family: ‘Montserrat’, sans-serif;
+    text-transform: uppercase;
+    color: white;
+    padding: 10px 0;
+    background-color: #91cb3e;
+    margin-bottom: 0rem;
+    text-align: center;
+
+}
+
+.recipe-card {
+    float: left;
+    margin: 10px;
+    border: #91cb3e solid 1px;
+    border-radius: 0px;
+    overflow: hidden;
+}
+
+/* .recipe-card row{
+    padding: 
+} */
+.recipe-card .recipe-image {
+    height: 100%;
+    overflow: hidden;
+}
+
+.recipe-card h5 {
+    font-size: 1.5em;
+    padding: 5px 0;
+    margin-bottom: 0px;
+}
+/* .ratings {
+
+} */
+
+.slogan {
+    color: #ee670d;
+    font-family: ‘Montserrat’, sans-serif;
+    text-align: center;
+    font-size: 20pt;
+    font-weight: bold;
+}
+
+#enter-form {
+    text-align: center;
+    font-family: ‘Montserrat’, sans-serif;
+    font-size: 10pt;
+    font-weight: bold;
+}
+
+#user-info {
+    max-width: 500px;
+    text-align: center;
+    margin: auto;
+}
+
+#submit {
+    max-width: 435px;
+    text-align: right;
+    margin: auto;
+}
+
+.green {
+    background-color: #91cb3e;
+    border: 1px solid #91cb3e;
+    color: #ffffff;
+}
+.btn-submit {
+    background-color: #91cb3e;
+    color: #fff;
+    border-color: #91cb3a
+    
+}
+
+.logo-splash {
+    margin: 50px auto 10px;
 }
