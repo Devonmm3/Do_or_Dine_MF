@@ -34,6 +34,20 @@ var categories = [
     },
 ]
 
+var ratings = {
+    "0": "assets/images/yelp-stars/small_0.png",
+    "1": "assets/images/yelp-stars/small_1.png",
+    "1.5": "assets/images/yelp-stars/small_1_half.png",
+    "2": "assets/images/yelp-stars/small_2.png",
+    "2.5": "assets/images/yelp-stars/small_2_half.png",
+    "3": "assets/images/yelp-stars/small_3.png",
+    "3.5": "assets/images/yelp-stars/small_3_half.png",
+    "4": "assets/images/yelp-stars/small_4.png",
+    "4.5": "assets/images/yelp-stars/small_4_half.png",
+    "5": "assets/images/yelp-stars/small_5.png"
+
+}
+
 //Hide the category page when the page loads
 $("#main-container").hide();
 
@@ -104,7 +118,7 @@ $(document).on("click", ".image-card", function () {
     console.log(q);
 
     //query URL for recipes
-    var queryURL1 = "https://www.food2fork.com/api/search?key=fb4f39eb5ea6ffbeb0f3f3811432fc39&q=" + q + "&sort=r&page=1";
+    var queryURL1 = "https://www.food2fork.com/api/search?key=1133c55853af81a0322420080892b7fe&q=" + q + "&sort=r&page=1";
     console.log(queryURL1)
     
     //ajax query for recipes
@@ -117,7 +131,7 @@ $(document).on("click", ".image-card", function () {
         });
 
     //query URL for restaurants
-    var queryURL2 = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?categories=" + q + "&location=" + zip;
+    var queryURL2 = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?categories=" + q + "-restaurants&location=" + zip;
     var key = "5FlEmy8iWdFAZEZf38vDDqBMWKiQ3ThCjti3C9vVhnsDjDQdKdJxps2Pll7_0Z3qT-IM-9CnKRVl3Vhe9jHUPUh8JutiEzogjAF5Wx5106kd91kx65cHShvJEikVXHYx"
     //ajax query for restaurants
     console.log(queryURL2);
@@ -140,22 +154,28 @@ $(document).on("click", ".image-card", function () {
         var response = JSON.parse(dataRecipe);
         for (var i = 0; i < 5; i++) {
             //creating and storing a div for the recipe bootstrap card
-            var recipeCard = $("<div>");
-
-            //setting the class per result for card
-            recipeCard.attr("class", "card recipe");
+            var recipeCard = $("<div class='card recipe'>");
+            var recipeRow = $("<div class='row'>")
+            var recipeInfo = $("<div class='col-8'>")
 
             //saving responses to variables
-            var image = $("<img class='recipe-image col-4 p-0'>");
+            var image = $("<img class='recipe-image col-4 px-0'>");
             image.attr("src", response.recipes[i].image_url);
+
             var title = $("<h5 class='card-title'>").text(response.recipes[i].title);
             var socialRank = $("<h6 class='card-subtitle'>").text(response.recipes[i].social_rank);
-            var recipeSource = $("<p class='card-text'>").text(response.recipes[i].source_url);
+            var recipeSource = response.recipes[i].source_url;
+            var recipeLink = $("<a class='btn green'>");
+            recipeLink.text("View Recipe");
+            recipeLink.attr("href", recipeSource)
 
-            recipeCard.prepend(image);
-            recipeCard.append(title);
-            recipeCard.append(socialRank);
-            recipeCard.append(recipeSource);
+
+            recipeInfo.append(title);
+            recipeInfo.append(socialRank);
+            recipeInfo.append(recipeLink);
+            recipeRow.prepend(image, recipeInfo);
+
+            recipeCard.append(recipeRow);
 
             recipeColumn.prepend(recipeCard);
         }
@@ -169,26 +189,36 @@ $(document).on("click", ".image-card", function () {
 
         var response = dataRestaurant;
         for (var i = 0; i < 5; i++) {
+            // debugger
+            console.log("Restaurants")
             //creating and storing a div for the recipe bootstrap card
-            var restaurantCard = $("<div>");
-
-            //setting the class per result for card
-            restaurantCard.attr("class", "card restaurant");
+            var restaurantCard = $("<div class='card restaurant'>");
+            var restaurantRow = $("<div class='row'>")
+            var restaurantInfo = $("<div class='col-8'>")
 
             //saving responses to variables
-            var image = $("<img class='card-img-top'>");
+            var image = $("<img class='col-4 recipe-image px-0'>");
             console.log(response.businesses[i]);
             image.attr("src", response.businesses[i].image_url);
-            var title = $("<h5 class='card-title'>").text("Title: " + response.businesses[i].name);
-            var rating = $("<h6 class='card-subtitle'>").text("Rating: " + response.businesses[i].rating);
-            var location = $("<p class='card-text'>").text("Location:" + response.businesses[i].location.address1);
-            var price= $("<p class='card-text'>").text(response.businesses[i].price);
+            var title = $("<h5 class='card-title'>").text(response.businesses[i].name);
+            var rating = response.businesses[i].rating;
+            var location = $("<p class='card-text'>").text(response.businesses[i].location.address1);
+            var price = $("<p class='card-text'>").text(response.businesses[i].price);
 
-            restaurantCard.prepend(image);
-            restaurantCard.append(title);
-            restaurantCard.append(rating);
-            restaurantCard.append(location);
-            restaurantCard.append(price);
+            var ratingsImg = $("<img>")
+            console.log(ratings[rating]);
+            ratingsImg.attr("src", ratings[rating]);
+
+            restaurantCard.append(restaurantRow)
+
+            restaurantRow.prepend(image);
+
+            restaurantInfo.append(title);
+            restaurantInfo.append(ratingsImg);
+            restaurantInfo.append(location);
+            restaurantInfo.append(price);
+
+            restaurantRow.append(restaurantInfo);
 
             restaurantColumn.prepend(restaurantCard);
         }

@@ -10,10 +10,21 @@
     color: #fff;
     background-color: #20315b;
 }
-.logo {
-    width: 250px;
-}
 
+header {
+    max-height: 200px;
+    border-bottom: #91cb3a solid 1px;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+.logo {
+    width: auto;
+    height: 100%;
+} 
+.header-slogan {
+    font-size: 2em;
+    /* text-transform: uppercase; */
+}
 .categories {
     float: left;
     width: 18em;
@@ -50,9 +61,11 @@
     overflow: hidden;
 }
 
-/* .recipe-card row{
-    padding: 
-} */
+.recipe-image {
+    height: 100%;
+    overflow: hidden;
+}
+
 .recipe-card .recipe-image {
     height: 100%;
     overflow: hidden;
@@ -63,22 +76,20 @@
     padding: 5px 0;
     margin-bottom: 0px;
 }
-/* .ratings {
-
-} */
 
 .slogan {
     color: #ee670d;
-    font-family: ‘Montserrat’, sans-serif;
+    font-family: ‘Montserrat’, sans-serif; 
+    font-weight: 100;
     text-align: center;
-    font-size: 20pt;
+    font-size: 3em;
     font-weight: bold;
 }
 
 #enter-form {
     text-align: center;
     font-family: ‘Montserrat’, sans-serif;
-    font-size: 10pt;
+    
     font-weight: bold;
 }
 
@@ -108,4 +119,10 @@
 
 .logo-splash {
     margin: 50px auto 10px;
+}
+
+.restaurant, .recipe {
+    max-height: 120px;
+    overflow: hidden;
+    margin-top: 10px;
 }
