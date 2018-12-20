@@ -40,7 +40,7 @@ $("#main-container").hide();
 
 //Show the category page when the submit is clicked
 
-$("#submit").on("click", function() {
+$("#sub-btn").on("click", function() {
     event.preventDefault();
 
     zip = $("#location-input").val().trim();
