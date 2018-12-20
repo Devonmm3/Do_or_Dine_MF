@@ -1,3 +1,5 @@
+var zip;
+
 var categories = [
 
     {
@@ -37,14 +39,17 @@ $("#main-container").hide();
 
 
 //Show the category page when the submit is clicked
-function hideFormPage() {
-    debugger
+
+$("#sub-btn").on("click", function() {
+    event.preventDefault();
+
+    zip = $("#location-input").val().trim();
+    console.log(zip);
+
     $("#enter-form").hide(); 
     $("#main-container").show();
     buildCatgegoryCards();  
-}
-
-$("#submit").on("click", hideFormPage());
+});
 
 
 //Building the cards for the categories when the page loads
@@ -112,9 +117,10 @@ $(document).on("click", ".image-card", function () {
         });
 
     //query URL for restaurants
-    var queryURL2 = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?category=" + q + "&location=20002"
+    var queryURL2 = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?categories=" + q + "&location=" + zip;
     var key = "5FlEmy8iWdFAZEZf38vDDqBMWKiQ3ThCjti3C9vVhnsDjDQdKdJxps2Pll7_0Z3qT-IM-9CnKRVl3Vhe9jHUPUh8JutiEzogjAF5Wx5106kd91kx65cHShvJEikVXHYx"
     //ajax query for restaurants
+    console.log(queryURL2);
     $.ajax({
         url: queryURL2,
         method: "GET",
