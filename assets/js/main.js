@@ -1,38 +1,16 @@
-var zip;
 
-var categories = [
+var config = {
+    apiKey: "AIzaSyC2pNVKb_umRvTZgssoUYSKhV0WxEvSsGk",
+    authDomain: "do-or-dine-mf.firebaseapp.com",
+    databaseURL: "https://do-or-dine-mf.firebaseio.com",
+    projectId: "do-or-dine-mf",
+    storageBucket: "do-or-dine-mf.appspot.com",
+    messagingSenderId: "501696051430"
+};
 
-    {
-        catName: "american",
-        catImageUrl: "assets/images/burger-chips-dinner-70497.jpg"
+firebase.initializeApp(config);
 
-    }, 
-    {
-        catName: "indian",
-        catImageUrl: "assets/images/bowl-chicken-close-up-674574.jpg"
-
-    },
-    {
-        catName: "japanese",
-        catImageUrl: "assets/images/asia-carrot-chopsticks-357756.jpg"
-
-    },
-    {
-        catName: "chinese",
-        catImageUrl: "assets/images/asian-blur-cabbage-1028734.jpg"
-
-    },
-    {
-        catName: "mexican",
-        catImageUrl: "assets/images/burrito-chicken-close-up-461198.jpg"
-
-    },
-    {
-        catName: "vegan",
-        catImageUrl: "assets/images/avocado-basil-close-up-1143754.jpg"
-
-    },
-]
+var database = firebase.database();
 
 var ratings = {
     "0": "assets/images/yelp-stars/small_0.png",
@@ -48,60 +26,70 @@ var ratings = {
 
 }
 
+
+var zip;
 //Hide the category page when the page loads
 $("#main-container").hide();
 
-
 //Show the category page when the submit is clicked
 
-$("#sub-btn").on("click", function() {
+$("#sub-btn").on("click", function () {
     event.preventDefault();
 
     zip = $("#location-input").val().trim();
     console.log(zip);
 
-    $("#enter-form").hide(); 
+    $("#enter-form").hide();
     $("#main-container").show();
-    buildCatgegoryCards();  
+    buildCatgegoryCards();
 });
 
 
 //Building the cards for the categories when the page loads
-function buildCatgegoryCards(){
+function buildCatgegoryCards() {
 
     //empty the div before the search
     $("#category-div").show();
     $("#results").hide();
 
-    for(i=0; i < categories.length; i++) {
-        
-        currentCat = categories[i];
-        console.log(currentCat.catName)
+    database.ref("categories").on("value", function (snapshot) {
+        console.log(snapshot.val());
+        var categories = snapshot.val();
+        var keys = Object.keys(categories);
 
-        categoryName = currentCat.catName;
-        categoryImgUrl = currentCat.catImageUrl;
+        for (i = 0; i < keys.length; i++ ) {
+            
+            currentCat = keys[i];
 
-        //create a new category card div
-        var newCategory = $("<div>");
-        newCategory.attr("id", "");
-        newCategory.addClass("card image-card categories");
-        newCategory.attr("data-food-name", categoryName);
+            categoryName = categories[currentCat].catName;
+            console.log(categoryName);
 
-        var newCategoryImage = $("<img>");
-        newCategoryImage.addClass("card-img-top");
-        newCategoryImage.attr("src", categoryImgUrl);
-        
-        var newCategoryName = $("<h5>");
-        newCategoryName.addClass("card-title");
-        newCategoryName.text(categoryName);
-        console.log(categoryName)
+            categoryImgUrl = categories[currentCat].catImageUrl;
+            console.log(categoryImgUrl);
 
-        newCategory.append(newCategoryImage);
-        newCategory.append(newCategoryName);
+            //create a new category card div
+            var newCategory = $("<div>");
+            newCategory.attr("id", "");
+            newCategory.addClass("card image-card categories");
+            newCategory.attr("data-food-name", categoryName);
 
-        $("#category-div").append(newCategory)
-        console.log(currentCat)
-    };
+            var newCategoryImage = $("<img>");
+            newCategoryImage.addClass("card-img-top");
+            newCategoryImage.attr("src", categoryImgUrl);
+
+            var newCategoryName = $("<h5>");
+            newCategoryName.addClass("card-title");
+            newCategoryName.text(categoryName);
+            console.log(categoryName)
+
+            newCategory.append(newCategoryImage);
+            newCategory.append(newCategoryName);
+
+            $("#category-div").append(newCategory)
+            console.log(currentCat)
+
+        }
+    });
 }
 
 // buildCatgegoryCards();
@@ -120,7 +108,7 @@ $(document).on("click", ".image-card", function () {
     //query URL for recipes
     var queryURL1 = "https://www.food2fork.com/api/search?key=1133c55853af81a0322420080892b7fe&q=" + q + "&sort=r&page=1";
     console.log(queryURL1)
-    
+
     //ajax query for recipes
     $.ajax({
         url: queryURL1,
@@ -141,45 +129,66 @@ $(document).on("click", ".image-card", function () {
         headers: {
             "Authorization": "Bearer " + key,
         }
-        })
+    })
         .then(function (response) {
             createCardRestaurant(response);
-    });
+        });
 
     function createCardRecipes(dataRecipe) {
 
         var recipeColumn = $("<div class='col-md-6' id='recipes-div'>")
         $("#results-div").append(recipeColumn);
+        
+        //add column title to the div
+        var colHeader = $("<div class='column-header'>");
+        colHeader.text("Recipes")
 
         var response = JSON.parse(dataRecipe);
         for (var i = 0; i < 5; i++) {
             //creating and storing a div for the recipe bootstrap card
             var recipeCard = $("<div class='card recipe'>");
             var recipeRow = $("<div class='row'>")
-            var recipeInfo = $("<div class='col-8'>")
+            var recipeImg = $("<div class='horizontal-image col-4 px-0'>")
+            var recipeInfo = $("<div class='col-8 info-section'>")
 
             //saving responses to variables
-            var image = $("<img class='recipe-image col-4 px-0'>");
+            var image = $("<img>");
             image.attr("src", response.recipes[i].image_url);
 
+            //recipe stars
+            var reciperating = response.recipes[i].social_rank;
+            var ratingStars = $("<img class='rating-stars'>")
+            
+            if (reciperating >= 80){
+                ratingStars.attr("src", "assets/images/recipe-stars/5-stars.png")
+            } else if (80 > reciperating >= 60){
+                ratingStars.attr("src", "assets/images/recipe-stars/4-stars.png")
+            } else if (60 > reciperating >= 40) {
+                ratingStars.attr("src", "assets/images/recipe-stars/3-stars.png")
+            } else if (40 > reciperating >= 20) {
+                ratingStars.attr("src", "assets/images/recipe-stars/2-stars.png")
+            } else if (20 > reciperating) {
+                ratingStars.attr("src", "assets/images/recipe-stars/1-star.png")
+            }    
+
             var title = $("<h5 class='card-title'>").text(response.recipes[i].title);
-            var socialRank = $("<h6 class='card-subtitle'>").text(response.recipes[i].social_rank);
+            // var socialRank = $("<h6 class='card-subtitle'>").text(response.recipes[i].social_rank);
             var recipeSource = response.recipes[i].source_url;
-            var recipeLink = $("<a class='btn green'>");
+            var recipeLink = $("<a class='btn green link-btn' target='_blank'>");
+
             recipeLink.text("View Recipe");
             recipeLink.attr("href", recipeSource)
 
-
-            recipeInfo.append(title);
-            recipeInfo.append(socialRank);
-            recipeInfo.append(recipeLink);
-            recipeRow.prepend(image, recipeInfo);
-
+            recipeImg.append(image)
+            recipeInfo.append(title, ratingStars, recipeLink);
+            recipeRow.append(recipeImg, recipeInfo);
             recipeCard.append(recipeRow);
-
             recipeColumn.prepend(recipeCard);
         }
-        
+
+        //Prepend the column header to it all
+        recipeColumn.prepend(colHeader);
+
     };
 
     function createCardRestaurant(dataRestaurant) {
@@ -187,42 +196,44 @@ $(document).on("click", ".image-card", function () {
         var restaurantColumn = $("<div class='col-md-6' id='restaurant-div'>")
         $("#results-div").append(restaurantColumn);
 
+        //add column title to the div
+        var colHeader = $("<div class='column-header'>");
+        colHeader.text("Restaurants")
+        
+
         var response = dataRestaurant;
         for (var i = 0; i < 5; i++) {
             // debugger
-            console.log("Restaurants")
             //creating and storing a div for the recipe bootstrap card
             var restaurantCard = $("<div class='card restaurant'>");
             var restaurantRow = $("<div class='row'>")
-            var restaurantInfo = $("<div class='col-8'>")
+            var restaurantImg = $("<div class='horizontal-image col-4 px-0'>")
+            var restaurantInfo = $("<div class='col-8 info-section'>")
 
             //saving responses to variables
-            var image = $("<img class='col-4 recipe-image px-0'>");
-            console.log(response.businesses[i]);
+            var image = $("<img>");
             image.attr("src", response.businesses[i].image_url);
-            var title = $("<h5 class='card-title'>").text(response.businesses[i].name);
-            var rating = response.businesses[i].rating;
-            var location = $("<p class='card-text'>").text(response.businesses[i].location.address1);
-            var price = $("<p class='card-text'>").text(response.businesses[i].price);
 
-            var ratingsImg = $("<img>")
-            console.log(ratings[rating]);
+            var title = $("<h5 class='card-title'>").text(response.businesses[i].name);
+            var address = $("<p class='card-text address'>").text(response.businesses[i].location.address1, response.businesses[i].location.address2);
+            var price = $("<div class='card-text price'>").text(response.businesses[i].price);
+
+            var rating = response.businesses[i].rating;
+            var ratingsImg = $("<img class='rating-stars'>")
+
             ratingsImg.attr("src", ratings[rating]);
 
             restaurantCard.append(restaurantRow)
 
-            restaurantRow.prepend(image);
-
-            restaurantInfo.append(title);
-            restaurantInfo.append(ratingsImg);
-            restaurantInfo.append(location);
-            restaurantInfo.append(price);
-
+            restaurantImg.append(image)
+            restaurantRow.prepend(restaurantImg);
+            restaurantInfo.append(title, ratingsImg, price, address);
             restaurantRow.append(restaurantInfo);
-
             restaurantColumn.prepend(restaurantCard);
         }
+
+        //Prepend the column header to it all
+        restaurantColumn.prepend(colHeader);
     };
 });
 
- 
