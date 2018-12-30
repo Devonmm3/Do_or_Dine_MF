@@ -21,10 +21,19 @@ header {
     width: auto;
     height: 100%;
 } 
+
+#header-logo {
+    width: 100%;
+    height: 100%;
+    max-width: 200px;
+}
 .header-slogan {
     font-size: 2em;
     /* text-transform: uppercase; */
 }
+
+/* Categories Stying  */
+
 .categories {
     float: left;
     width: 18em;
@@ -53,6 +62,7 @@ header {
 
 }
 
+/* Recipe and restaurant list card  */
 .recipe-card {
     float: left;
     margin: 10px;
@@ -61,14 +71,16 @@ header {
     overflow: hidden;
 }
 
-.recipe-image {
-    height: 100%;
+.horizontal-image {
+    height: auto;
     overflow: hidden;
 }
 
-.recipe-card .recipe-image {
-    height: 100%;
-    overflow: hidden;
+.horizontal-image img {
+    display: block;
+    margin: auto;
+    max-width: 250px;   
+    object-fit: cover;
 }
 
 .recipe-card h5 {
@@ -125,4 +137,41 @@ header {
     max-height: 120px;
     overflow: hidden;
     margin-top: 10px;
+}
+
+.column-header {
+    background-color: #91cb3e;
+    color: white;
+    font-size: 1.5em;
+    padding: 10px 20px;
+    
+}
+
+.rating-stars {
+    width: 100px;
+}
+
+.link-btn {
+    float: right;
+    margin-right: 10px;
+}
+
+.info-section {
+    padding-top: 10px;
+}
+
+.price {
+    float: right;
+    margin: 0px 20px 0px;
+    padding: 5px;
+    background: #e63a26;
+    color: white;
+    border-radius: 3px;
+
+}
+
+/* Reset Buttons */
+
+#reset-div {
+    margin-bottom: 10px;
 }
