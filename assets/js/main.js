@@ -100,6 +100,7 @@ $(document).on("click", ".image-card", function () {
     //hide category buttons and show the results div
     $("#category-div").hide();
     $("#results-div").show();
+    $("#reset").show()
 
    
 
@@ -245,4 +246,13 @@ $(document).on("click", ".image-card", function () {
         restaurantColumn.prepend(colHeader);
     };
 });
+
+$(document).on("click", "#reset", function() {
+    $("#category-div").show();
+    $("#results-div").hide();
+    $("#results-div").empty();
+    $('#reset').hide();
+    q = "";
+});
+ 
 

@@ -139,6 +139,9 @@ header {
     margin-top: 10px;
 }
 
+
+
+
 .column-header {
     background-color: #91cb3e;
     color: white;
@@ -174,4 +177,7 @@ header {
 
 #reset-div {
     margin-bottom: 10px;
+}
+#reset {
+    display: hidden;
 }
