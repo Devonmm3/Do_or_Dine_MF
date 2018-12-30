@@ -101,13 +101,22 @@ $(document).on("click", ".image-card", function () {
     $("#category-div").hide();
     $("#results-div").show();
 
+   
+
     //attribute from the card for the food name
     var q = $(this).attr("data-food-name");
-    console.log(q);
+    // console.log(q);
+
+    var resetDiv = $("<div class='col-12' id='reset-div'>")
+    resetDiv.html(
+        "<div class='btn btn-danger' id='reset-button'> <i class='fas fa-redo'></i>  Select another Category </div>"
+        )
+
+    $("#results-div").prepend(resetDiv)
 
     //query URL for recipes
     var queryURL1 = "https://www.food2fork.com/api/search?key=1133c55853af81a0322420080892b7fe&q=" + q + "&sort=r&page=1";
-    console.log(queryURL1)
+    // console.log(queryURL1)
 
     //ajax query for recipes
     $.ajax({
@@ -171,7 +180,7 @@ $(document).on("click", ".image-card", function () {
                 ratingStars.attr("src", "assets/images/recipe-stars/1-star.png")
             }    
 
-            var title = $("<h5 class='card-title'>").text(response.recipes[i].title);
+            var title = $("<h5 class='card-title'>").html(response.recipes[i].title);
             // var socialRank = $("<h6 class='card-subtitle'>").text(response.recipes[i].social_rank);
             var recipeSource = response.recipes[i].source_url;
             var recipeLink = $("<a class='btn green link-btn' target='_blank'>");
