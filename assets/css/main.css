@@ -126,3 +126,7 @@ header {
     overflow: hidden;
     margin-top: 10px;
 }
+
+#reset {
+    display: hidden;
+}

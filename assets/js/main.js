@@ -112,6 +112,7 @@ $(document).on("click", ".image-card", function () {
     //hide category buttons and show the results div
     $("#category-div").hide();
     $("#results-div").show();
+    $("#reset").show()
 
     //attribute from the card for the food name
     var q = $(this).attr("data-food-name");
@@ -225,4 +226,11 @@ $(document).on("click", ".image-card", function () {
     };
 });
 
+$(document).on("click", "#reset", function() {
+    $("#category-div").show();
+    $("#results-div").hide();
+    $("#results-div").empty();
+    $('#reset').hide();
+    q = "";
+});
  
