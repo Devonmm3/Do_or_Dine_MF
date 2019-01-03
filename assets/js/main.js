@@ -39,9 +39,15 @@ $("#sub-btn").on("click", function () {
     zip = $("#location-input").val().trim();
     console.log(zip);
 
-    $("#enter-form").hide();
-    $("#main-container").show();
-    buildCatgegoryCards();
+    if (zip == "") {
+        $("#location-field").fadeIn(100).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+        $("#location-input").attr('placeholder', 'Please enter a valid location')
+    }
+    else {
+        $("#enter-form").hide();
+        $("#main-container").show();
+        buildCatgegoryCards();
+    }
 });
 
 
@@ -129,7 +135,7 @@ $(document).on("click", ".image-card", function () {
         });
 
     //query URL for restaurants
-    var queryURL2 = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?categories=" + q + "-restaurants&location=" + zip;
+    var queryURL2 = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?categories=" + q + "&location=" + zip;
     var key = "5FlEmy8iWdFAZEZf38vDDqBMWKiQ3ThCjti3C9vVhnsDjDQdKdJxps2Pll7_0Z3qT-IM-9CnKRVl3Vhe9jHUPUh8JutiEzogjAF5Wx5106kd91kx65cHShvJEikVXHYx"
     //ajax query for restaurants
     console.log(queryURL2);
@@ -247,11 +253,11 @@ $(document).on("click", ".image-card", function () {
     };
 });
 
-$(document).on("click", "#reset", function() {
+$(document).on("click", "#reset-button", function() {
     $("#category-div").show();
     $("#results-div").hide();
     $("#results-div").empty();
-    $('#reset').hide();
+    $('#reset-button').hide();
     q = "";
 });
  

@@ -176,6 +176,7 @@ header {
 /* Reset Buttons */
 
 #reset-div {
+    text-align: center;
     margin-bottom: 10px;
 }
 #reset {
