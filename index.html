@@ -19,12 +19,12 @@
         <img src="assets/images/Do-or-Dine-logo.png" alt="DO or DINE" class="logo-splash img-fluid">
         <p class="slogan">Fix it! Get it! You decide!</p>
         <form id="user-info">
-            <div class="row">
+            <div class="row" id="location-field">
                 <div class="input-group mb-4 col-sm-12">
                     <div class="input-group-prepend">
                         <span class="input-group-text green" id="location">Location</span>
                     </div>
-                    <input type="text" class="form-control" placeholder="Eg. Silver Spring 20092"id="location-input">
+                    <input required type="text" class="form-control" placeholder="Eg. Silver Spring 20092"id="location-input">
                 </div>
             </div>
             <div class= "text-center">
@@ -48,10 +48,6 @@
         </div>
 
         <div class="row" id="results-div">
-        </div>
-        <br>
-        <div class="text-center">
-            <button type="submit" class="btn btn-submit ml-auto" id="reset">Search Again</button>
         </div>
     </div>
 
