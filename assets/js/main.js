@@ -202,8 +202,9 @@ $(document).on("click", ".image-card", function () {
 
     function createCardRestaurant(dataRestaurant) {
 
-        var restaurantColumn = $("<div class='col-md-6' id='restaurant-div'>")
+        var restaurantColumn = $("<div class='col-md-6 ' id='restaurant-div'>")
         $("#results-div").append(restaurantColumn);
+
 
         //add column title to the div
         var colHeader = $("<div class='column-header'>");
@@ -224,12 +225,12 @@ $(document).on("click", ".image-card", function () {
             image.attr("src", response.businesses[i].image_url);
 
             var title = $("<h5 class='card-title'>").text(response.businesses[i].name);
-            var address = $("<p class='card-text address'>").text(response.businesses[i].location.address1, response.businesses[i].location.address2);
-            var price = $("<div class='card-text price'>").text(response.businesses[i].price);
+            var address = $("<p class='card-text address'>").html(response.businesses[i].location.address1 + "<br>" + response.businesses[i].location.city + "," + response.businesses[i].location.country);
+            var price = $("<div class='card-img-overlay'>").html("<h5 class='price'>" + response.businesses[i].price + "</h5>");
             var restaurantUrl = response.businesses[i].url;
-            var restaurantLink = $("<a class='btn danger link-btn' target='_blank'>");
+            var restaurantLink = $("<a class='row btn green link-btn' target='_blank'>");
 
-            restaurantLink.text("View Recipe");
+            restaurantLink.text("More Info");
             restaurantLink.attr("href", restaurantUrl);
 
             var rating = response.businesses[i].rating;
@@ -239,9 +240,9 @@ $(document).on("click", ".image-card", function () {
 
             restaurantCard.append(restaurantRow);
 
-            restaurantImg.append(image);
+            restaurantImg.append(image, price);
             restaurantRow.prepend(restaurantImg);
-            restaurantInfo.append(title, ratingsImg, price, address, restaurantLink);
+            restaurantInfo.append(title, ratingsImg,  address, restaurantLink);
             restaurantRow.append(restaurantInfo);
             restaurantColumn.prepend(restaurantCard);
         }

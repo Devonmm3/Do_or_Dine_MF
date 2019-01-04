@@ -23,6 +23,7 @@ header {
 } 
 
 #header-logo {
+    margin-top: 10px;
     width: 100%;
     height: 100%;
     max-width: 200px;
@@ -62,6 +63,10 @@ header {
 
 }
 
+.image-card:hover {
+    opacity: .7;
+}
+
 /* Recipe and restaurant list card  */
 .recipe-card {
     float: left;
@@ -69,6 +74,7 @@ header {
     border: #91cb3e solid 1px;
     border-radius: 0px;
     overflow: hidden;
+    border-radius: 0px;
 }
 
 .horizontal-image {
@@ -78,9 +84,10 @@ header {
 
 .horizontal-image img {
     display: block;
-    margin: auto;
-    max-width: 250px;   
+    width: 100%;
+    /* max-width: 200px; */
     object-fit: cover;
+    min-height: 140px;
 }
 
 .recipe-card h5 {
@@ -134,29 +141,46 @@ header {
 }
 
 .restaurant, .recipe {
-    max-height: 120px;
+    max-height: 140px;
     overflow: hidden;
     margin-top: 10px;
+    border-radius: 0px;
+    border-bottom: #91cb3e solid 3px;
+
+}
+.card-title {
+    font-family: montserrat;
+    color: #5d9607;
 }
 
-
-
+.card-title, .rating-stars, .address {
+    float: left;
+    clear: both;
+}
 
 .column-header {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     background-color: #91cb3e;
     color: white;
     font-size: 1.5em;
     padding: 10px 20px;
     
 }
-
 .rating-stars {
-    width: 100px;
+    width: 30%;
+    padding-bottom: 10px;
 }
 
 .link-btn {
     float: right;
     margin-right: 10px;
+    vertical-align: bottom;
+}
+
+.link-btn:hover {
+    background-color: #20315b;
+    color: white;
 }
 
 .info-section {
@@ -164,12 +188,11 @@ header {
 }
 
 .price {
-    float: right;
-    margin: 0px 20px 0px;
+    float: left;
     padding: 5px;
-    background: #e63a26;
-    color: white;
-    border-radius: 3px;
+    background: white;
+    color: red;
+    border-radius: 5px;
 
 }
 
@@ -178,7 +201,30 @@ header {
 #reset-div {
     text-align: center;
     margin-bottom: 10px;
+    
 }
 #reset {
     display: hidden;
+}
+
+
+@media only screen and (max-width: 760px) {
+  #recipes-div, #restaurant-div {
+      margin-bottom: 30px;
+  }
+
+  .info-section {
+      padding: 15px 10px 0px 10px;
+
+  }
+
+  .address {
+      font-size: .8em;
+  }
+
+  .header-slogan {
+      font-size: 1.4em;
+      text-align: center;
+  }
+  
 }
