@@ -23,9 +23,7 @@ var ratings = {
     "4": "assets/images/yelp-stars/small_4.png",
     "4.5": "assets/images/yelp-stars/small_4_half.png",
     "5": "assets/images/yelp-stars/small_5.png"
-
 }
-
 
 var zip;
 //Hide the category page when the page loads
@@ -49,7 +47,6 @@ $("#sub-btn").on("click", function () {
         buildCatgegoryCards();
     }
 });
-
 
 //Building the cards for the categories when the page loads
 function buildCatgegoryCards() {
@@ -98,17 +95,12 @@ function buildCatgegoryCards() {
     });
 }
 
-// buildCatgegoryCards();
-
-
 $(document).on("click", ".image-card", function () {
 
     //hide category buttons and show the results div
     $("#category-div").hide();
     $("#results-div").show();
-    $("#reset").show()
-
-   
+    $("#reset").show()   
 
     //attribute from the card for the food name
     var q = $(this).attr("data-food-name");
@@ -147,6 +139,7 @@ $(document).on("click", ".image-card", function () {
         }
     })
         .then(function (response) {
+            console.log(response)
             createCardRestaurant(response);
         });
 
@@ -161,6 +154,7 @@ $(document).on("click", ".image-card", function () {
 
         var response = JSON.parse(dataRecipe);
         for (var i = 0; i < 5; i++) {
+
             //creating and storing a div for the recipe bootstrap card
             var recipeCard = $("<div class='card recipe'>");
             var recipeRow = $("<div class='row'>")
@@ -188,7 +182,6 @@ $(document).on("click", ".image-card", function () {
             }    
 
             var title = $("<h5 class='card-title'>").html(response.recipes[i].title);
-            // var socialRank = $("<h6 class='card-subtitle'>").text(response.recipes[i].social_rank);
             var recipeSource = response.recipes[i].source_url;
             var recipeLink = $("<a class='btn green link-btn' target='_blank'>");
 
@@ -219,7 +212,7 @@ $(document).on("click", ".image-card", function () {
 
         var response = dataRestaurant;
         for (var i = 0; i < 5; i++) {
-            // debugger
+
             //creating and storing a div for the recipe bootstrap card
             var restaurantCard = $("<div class='card restaurant'>");
             var restaurantRow = $("<div class='row'>")
@@ -233,17 +226,22 @@ $(document).on("click", ".image-card", function () {
             var title = $("<h5 class='card-title'>").text(response.businesses[i].name);
             var address = $("<p class='card-text address'>").text(response.businesses[i].location.address1, response.businesses[i].location.address2);
             var price = $("<div class='card-text price'>").text(response.businesses[i].price);
+            var restaurantUrl = response.businesses[i].url;
+            var restaurantLink = $("<a class='btn danger link-btn' target='_blank'>");
+
+            restaurantLink.text("View Recipe");
+            restaurantLink.attr("href", restaurantUrl);
 
             var rating = response.businesses[i].rating;
-            var ratingsImg = $("<img class='rating-stars'>")
+            var ratingsImg = $("<img class='rating-stars'>");
 
             ratingsImg.attr("src", ratings[rating]);
 
-            restaurantCard.append(restaurantRow)
+            restaurantCard.append(restaurantRow);
 
-            restaurantImg.append(image)
+            restaurantImg.append(image);
             restaurantRow.prepend(restaurantImg);
-            restaurantInfo.append(title, ratingsImg, price, address);
+            restaurantInfo.append(title, ratingsImg, price, address, restaurantLink);
             restaurantRow.append(restaurantInfo);
             restaurantColumn.prepend(restaurantCard);
         }
